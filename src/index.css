@@ -34,7 +34,7 @@ body, #root {
   place-items: center;
   width: 500px;
   height: 200px;
-  border-radius: 6px;
+  border-radius: 15px;
   background-color: #292929;
   margin-bottom: 1vh;
 }
