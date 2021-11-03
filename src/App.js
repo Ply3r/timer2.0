@@ -139,13 +139,13 @@ export default class App extends Component {
               <button
                 onClick={ this.pauseTimer }
               >
-                <BsPlayFill />
+                <BsPauseFill />
               </button>
             :
               <button
                 onClick={ this.startCountdown }
               >
-                <BsPauseFill />
+                <BsPlayFill />
               </button>
             }
             <button
