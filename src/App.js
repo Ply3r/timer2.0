@@ -90,8 +90,9 @@ export default class App extends Component {
   }
 
   handleChange = ({ target: { value } }) => {
+    const regex = /^[\d]{2}$/
 
-    if (value.length === 2) {
+    if (regex.test(value)) {
       value += ':'
     }
 
