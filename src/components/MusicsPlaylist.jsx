@@ -15,8 +15,8 @@ class MusicsPlaylist extends Component {
   }
 
   componentDidMount() {
-    this.apagarCard();
     this.getActiveMusic();
+    this.apagarCard();
   }
 
   componentDidUpdate(Props) {
