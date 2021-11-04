@@ -57,6 +57,7 @@ export default class App extends Component {
     clearInterval(this.timer);
     setTimeout(() => {
       alert('The Countdown is over!')
+      this.stopTimer();
     }, 1000)
   }
 
