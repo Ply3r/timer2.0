@@ -143,3 +143,15 @@ body, #root {
   flex-direction: column;
   justify-content: space-around;
 }
+
+.mute-button {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: -25vw;
+  border: none;
+  background-color: transparent;
+  margin: 25px;
+  font-size: 2em;
+  color: white;
+}

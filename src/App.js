@@ -3,6 +3,7 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import ControlPainel from './components/ControlPainel';
 import MusicsPlaylist from './components/MusicsPlaylist';
+import { MdMusicNote, MdMusicOff } from 'react-icons/md';
 import musics from './songs';
 
 export default class App extends Component {
@@ -14,6 +15,7 @@ export default class App extends Component {
       percentage: 0,
       isTimerActive: false,
       alarm: false,
+      muted: false,
     }
   }
 
@@ -91,12 +93,27 @@ export default class App extends Component {
     this.setState({ minutes, seconds })
   }
 
+  muteAudio = () => {
+    this.setState((after) => ({ muted: !after.muted }))
+  }
+
   render() {
-    const { percentage, minutes, seconds, isTimerActive, alarm } = this.state;
+    const { percentage, minutes, seconds, isTimerActive, alarm, muted } = this.state;
     return (
       <>
         { alarm && <audio src={ musics.alarm } autoPlay /> }
-        { isTimerActive && <MusicsPlaylist /> }
+        { (isTimerActive && !muted) && <MusicsPlaylist /> }
+        <button 
+          className="mute-button"
+          onClick={ this.muteAudio }
+        >
+          { muted
+          ?
+            <MdMusicOff />
+          :
+            <MdMusicNote />
+          }
+        </button>
         <div className="progressbar">
           <CircularProgressbar 
           value={ percentage } 
