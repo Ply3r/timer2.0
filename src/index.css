@@ -106,20 +106,10 @@ body, #root {
   }
 }
 
-@keyframes aparecerCard {
-  0% {
-    opacity: .5;
-    top: 0%;
-  }
-  100% {
-    opacity: 1;
-    top: 5%;
-  }
-}
-
 .card-container {
   position: absolute;
-  top: 5%;
+  top: 0;
+  opacity: 0;
   width: 500px;
   height: 100px;
   background-color: #292929;
@@ -129,7 +119,6 @@ body, #root {
   z-index: 10;
   padding: 15px;
   border-radius: 6px;
-  animation: aparecerCard 2s ease;
 }
 
 .card-container img {

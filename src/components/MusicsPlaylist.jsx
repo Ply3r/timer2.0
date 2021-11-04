@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import musics from '../songs';
+import MusicCard from "./MusicCard";
 
 class MusicsPlaylist extends Component {
   constructor(props) {
@@ -11,7 +12,6 @@ class MusicsPlaylist extends Component {
       musics.leaves
     ];
     const playlist = MusicPlaylist.sort(() => Math.random() - 0.5 )
-    console.log(playlist);
     this.state = {
       playlist,
       position: 0,
@@ -38,18 +38,15 @@ class MusicsPlaylist extends Component {
   }
 
   render() {
-    const { playlist, position,showCard } = this.state;
+    const { playlist, position, showCard } = this.state;
     return (
       <>
-        { showCard &&       
-          <div className="card-container">
-            <img src={ playlist[position].img } alt="musica" />
-            <div className="info-card">
-              <h2>{ playlist[position].name }</h2>
-              <p>{ playlist[position].artist }</p>
-            </div>
-          </div>
-        }
+        <MusicCard 
+          img={ playlist[position].img }
+          name={ playlist[position].name }
+          artist={ playlist[position].artist }
+          showCard={ showCard }
+        />
         <audio onEnded={this.changeMusic} src={ playlist[position].song } autoPlay />
       </>
     )
