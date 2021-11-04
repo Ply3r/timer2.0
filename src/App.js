@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import { BsPlayFill, BsPauseFill, BsStopFill } from "react-icons/bs";
-import { FaSearch } from 'react-icons/fa'
 import 'react-circular-progressbar/dist/styles.css';
+import ControlPainel from './components/ControlPainel';
+import MusicsPlaylist from './components/MusicsPlaylist';
+import musics from './songs';
 
 export default class App extends Component {
   constructor(props) {
@@ -12,8 +13,7 @@ export default class App extends Component {
       seconds: '0',
       percentage: 0,
       isTimerActive: false,
-      search: false,
-      textSearch: '',
+      alarm: false,
     }
   }
 
@@ -22,7 +22,7 @@ export default class App extends Component {
     const totalPercentage = Number(minutes) * 60 + Number(seconds);
     const titleHTML = document.getElementById('title');
 
-    this.setState({ isTimerActive: true })
+    this.setState({ isTimerActive: true, alarm: false })
     this.timer = setInterval(() => {
       const { minutes, seconds } = this.state;
       let newMinute = Number(minutes);
@@ -43,12 +43,18 @@ export default class App extends Component {
       this.setState({ minutes: minuteStr, seconds: secondStr, percentage})
 
       if (newMinute === 0 && newSecond === 0) {
-        this.setState({ isTimerActive: false })
-        clearInterval(this.timer);
-        alert('The Countdown is over!')
+        this.countDownFinish();
         return;
       }
 
+    }, 1000)
+  }
+
+  countDownFinish = () => {
+    this.setState({ isTimerActive: false, alarm: true })
+    clearInterval(this.timer);
+    setTimeout(() => {
+      alert('The Countdown is over!')
     }, 1000)
   }
 
@@ -60,7 +66,7 @@ export default class App extends Component {
   stopTimer = () => {
     const titleHTML = document.getElementById('title');
     titleHTML.innerText = `05:00 - Timer`
-    this.setState({ isTimerActive: false, minutes: '5', seconds: '0', percentage: 0 })
+    this.setState({ isTimerActive: false, minutes: '5', seconds: '0', percentage: 0, alarm: false, })
     clearInterval(this.timer)
   }
 
@@ -77,10 +83,6 @@ export default class App extends Component {
     this.setState({ minutes: `${newMinute}`, seconds: `${newSecond}` });
   }
 
-  togleSearch = () => {
-    this.setState((after) => ({ search: !after.search }))
-  }
-
   changeTimeBySearch = (value) => {
     const array = value.split(':');
     let minutes = array[0];
@@ -89,34 +91,12 @@ export default class App extends Component {
     this.setState({ minutes, seconds })
   }
 
-  handleChange = ({ target: { value } }) => {
-    const regex = /^[\d]{2}$/
-
-    if (regex.test(value)) {
-      value += ':'
-    }
-
-    if (value.length <= 5) {
-      this.setState({ textSearch: value })
-    }
-
-  }
-
-  searchEnter = (event) => {
-    const { textSearch } = this.state;
-    const ENTER_KEYCODE = 13;
-    const regex = /^\d{2}:\d{2}$/s
-       
-    if (event.keyCode === ENTER_KEYCODE && regex.test(textSearch)) {
-      this.changeTimeBySearch(textSearch)
-    }
-    
-  }
-
   render() {
-    const { percentage, minutes, seconds, isTimerActive, search, textSearch } = this.state;
+    const { percentage, minutes, seconds, isTimerActive, alarm } = this.state;
     return (
       <>
+        { alarm && <audio src={ musics.alarm } autoPlay /> }
+        { isTimerActive && <MusicsPlaylist /> }
         <div className="progressbar">
           <CircularProgressbar 
           value={ percentage } 
@@ -134,62 +114,14 @@ export default class App extends Component {
               {`${'00'.slice(minutes.length) + minutes}:${'00'.slice(seconds.length) + seconds}`}
             </h1>
           </div>
-          <div className="control-painel">
-            { isTimerActive 
-            ? 
-              <button
-                onClick={ this.pauseTimer }
-              >
-                <BsPauseFill />
-              </button>
-            :
-              <button
-                onClick={ this.startCountdown }
-              >
-                <BsPlayFill />
-              </button>
-            }
-            <button
-              onClick={ this.stopTimer }
-            >
-              <BsStopFill />
-            </button>
-            <button
-              disabled={ isTimerActive }
-              onClick={() => {
-                this.addQuantity(5)
-              }}
-            >
-              +5
-            </button>
-            <button
-              disabled={ isTimerActive }
-              onClick={() => {
-                this.addQuantity(10)
-              }}
-            >
-              +10
-            </button>
-            <button
-              disabled={ isTimerActive }
-              onClick={ this.togleSearch }
-            >
-              <FaSearch />
-            </button>
-          </div>
-          <div className="search-container">
-            { search &&
-
-              <input
-                type="text"
-                name="textSearch"
-                value={ textSearch }
-                placeholder="00:00"
-                onChange={ this.handleChange }
-                onKeyUp={ this.searchEnter }
-              />
-            }
-          </div>
+          <ControlPainel 
+            isTimerActive={ isTimerActive }
+            changeTimeBySearch={ this.changeTimeBySearch }
+            pauseTimer={ this.pauseTimer }
+            startCountdown={ this.startCountdown }
+            stopTimer={ this.stopTimer }
+            addQuantity={ this.addQuantity }
+          />
         </div>
       </>
     );

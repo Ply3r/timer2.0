@@ -105,3 +105,41 @@ body, #root {
     width: 100%;
   }
 }
+
+@keyframes aparecerCard {
+  0% {
+    opacity: .5;
+    top: 0%;
+  }
+  100% {
+    opacity: 1;
+    top: 5%;
+  }
+}
+
+.card-container {
+  position: absolute;
+  top: 5%;
+  width: 500px;
+  height: 100px;
+  background-color: #292929;
+  border: 1px solid #3b3b3b;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+  padding: 15px;
+  border-radius: 6px;
+  animation: aparecerCard 2s ease;
+}
+
+.card-container img {
+  height: 100%;
+  margin-right: 15px;
+}
+
+.info-card {
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
