@@ -30,7 +30,7 @@ export default class App extends Component {
       let newMinute = Number(minutes);
       let newSecond = Number(seconds) - 1;
 
-      if (newSecond <= 0 && newMinute !== 0) {
+      if (newSecond < 0 && newMinute !== 0) {
         newMinute -= 1;
         newSecond = 59;
       }
