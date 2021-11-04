@@ -144,3 +144,79 @@ body, #root {
   font-size: 2em;
   color: white;
 }
+
+.panel-button {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: -22vw;
+  border: none;
+  background-color: transparent;
+  margin: 25px;
+  font-size: 2em;
+  color: white;
+}
+
+.music-panel {
+  position: absolute;
+  border: 1px solid #3b3b3b;
+  background-color: #292929;
+  width: 400px;
+  height: 600px;
+  overflow: hidden;
+  z-index: 10;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-painel-container {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 25px;
+  border-bottom: 2px solid #3b3b3b;
+}
+
+.main-painel-container img {
+  width: 100%;
+}
+
+.flex-container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.flex-item {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  width: 100%;
+  padding: 5px;
+  user-select: none;
+  cursor: pointer;
+  border-bottom: 1px solid #3b3b3b;
+}
+
+.active {
+  background-color: #3b3b3b;
+}
+
+.flex-item img {
+  height: 90%;
+  margin-right: 15px;
+}
+
+.flex-item h3 {
+  width: 200px;
+}
+
+.flex-item p {
+  text-align: center;
+  width: 100px;
+}

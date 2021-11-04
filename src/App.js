@@ -3,7 +3,10 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import ControlPainel from './components/ControlPainel';
 import MusicsPlaylist from './components/MusicsPlaylist';
+import MusicPanel from './components/MusicPanel';
 import { MdMusicNote, MdMusicOff } from 'react-icons/md';
+import { AiOutlineMenuUnfold, AiOutlineMenuFold } from 'react-icons/ai'
+import Alarm from './songs/musicas/alarm.mp3'
 import musics from './songs';
 
 export default class App extends Component {
@@ -16,6 +19,8 @@ export default class App extends Component {
       isTimerActive: false,
       alarm: false,
       muted: false,
+      panelActive: false,
+      activeMusic: 'Eternal-young',
     }
   }
 
@@ -94,16 +99,40 @@ export default class App extends Component {
     this.setState({ minutes, seconds })
   }
 
+  changeActiveMusic = (activeMusic) => {
+    this.setState({ activeMusic })
+  }
+
   muteAudio = () => {
     this.setState((after) => ({ muted: !after.muted }))
   }
 
+  showPainel = () => {
+    this.setState((after) => ({ panelActive: !after.panelActive }))
+  }
+
+  changeMusic = () => {
+    const { activeMusic } = this.state;
+    const index = musics.findIndex((music) => music.name === activeMusic);
+    let newIndex = index + 1;
+    if(newIndex > musics.length - 1) {
+      newIndex = 0
+    }
+    const newMusic = musics[newIndex].name;
+    this.setState({ activeMusic: newMusic })
+  }
+
   render() {
-    const { percentage, minutes, seconds, isTimerActive, alarm, muted } = this.state;
+    const { percentage, minutes, seconds, isTimerActive, alarm, muted, panelActive, activeMusic } = this.state;
     return (
       <>
-        { alarm && <audio src={ musics.alarm } autoPlay /> }
-        { (isTimerActive && !muted) && <MusicsPlaylist /> }
+        { alarm && <audio src={ Alarm } autoPlay /> }
+        { (isTimerActive && !muted) && 
+          <MusicsPlaylist
+            changeMusic={ this.changeMusic }
+            activeMusic={activeMusic}
+          /> 
+        }
         <button 
           className="mute-button"
           onClick={ this.muteAudio }
@@ -115,6 +144,22 @@ export default class App extends Component {
             <MdMusicNote />
           }
         </button>
+        <button 
+          className="panel-button"
+          onClick={ this.showPainel }
+        >
+          { panelActive
+          ?
+            <AiOutlineMenuFold />
+          :
+            <AiOutlineMenuUnfold />
+          }
+        </button>
+        <MusicPanel
+          changeActiveMusic={ this.changeActiveMusic }
+          activeMusic={ activeMusic }
+          panelActive={ panelActive }
+        />
         <div className="progressbar">
           <CircularProgressbar 
           value={ percentage } 

@@ -1,53 +1,56 @@
 import React, { Component } from "react";
-import musics from '../songs';
+import musics from "../songs";
 import MusicCard from "./MusicCard";
 
 class MusicsPlaylist extends Component {
   constructor(props) {
     super(props);
-    const MusicPlaylist = [
-      musics.dreamOfHerMusic, 
-      musics.wheniseeyou, 
-      musics.eternalYoung, 
-      musics.leaves
-    ];
-    const playlist = MusicPlaylist.sort(() => Math.random() - 0.5 )
     this.state = {
-      playlist,
-      position: 0,
+      img: '',
+      name: '',
+      artist: '',
+      song: '',
       showCard: true,
     }
   }
 
   componentDidMount() {
+    this.apagarCard();
+    this.getActiveMusic();
+  }
+
+  componentDidUpdate(Props) {
+    const { activeMusic } = this.props;
+    if(Props.activeMusic !== activeMusic) {
+      this.getActiveMusic();
+      this.apagarCard();
+    }
+  }
+
+  apagarCard = () => {
     setTimeout(() => {
       this.setState({ showCard: false })
     }, 6000)
   }
 
-  changeMusic = () => {
-    const { position, playlist: { length } } = this.state;
-    let newPosition = position + 1;
-    if (newPosition >= length - 1) {
-      newPosition = 0
-    }
-    this.setState({ position: newPosition, showCard: true });
-    setTimeout(() => {
-      this.setState({ showCard: false })
-    }, 6000)
+  getActiveMusic = () => {
+    const { activeMusic } = this.props;
+    const { name, img, artist, song } = musics.find((musica) => musica.name === activeMusic)
+    this.setState({ name, img, artist, song, showCard: true })
   }
 
   render() {
-    const { playlist, position, showCard } = this.state;
+    const { img, name, artist, song, showCard } = this.state;
+    const { changeMusic } = this.props;
     return (
       <>
         <MusicCard 
-          img={ playlist[position].img }
-          name={ playlist[position].name }
-          artist={ playlist[position].artist }
+          img={ img }
+          name={ name }
+          artist={ artist }
           showCard={ showCard }
         />
-        <audio onEnded={this.changeMusic} src={ playlist[position].song } autoPlay />
+        <audio onEnded={changeMusic} src={ song } autoPlay />
       </>
     )
   }
