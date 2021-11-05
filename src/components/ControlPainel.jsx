@@ -1,39 +1,14 @@
 import React, { Component } from "react";
 import { BsPlayFill, BsPauseFill, BsStopFill } from "react-icons/bs";
 import { FaSearch } from 'react-icons/fa';
+import Search from "./Search";
 
 class ControlPainel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      textSearch: '',
       search: false,
     }
-  }
-
-  handleChange = ({ target: { value } }) => {
-    const regex = /^[\d]{2}$/
-
-    if (regex.test(value)) {
-      value += ':'
-    }
-
-    if (value.length <= 5) {
-      this.setState({ textSearch: value })
-    }
-
-  }
-
-  searchEnter = (event) => {
-    const { textSearch } = this.state;
-    const { changeTimeBySearch } = this.props;
-    const ENTER_KEYCODE = 13;
-    const regex = /^\d{2}:\d{2}$/s
-       
-    if (event.keyCode === ENTER_KEYCODE && regex.test(textSearch)) {
-      changeTimeBySearch(textSearch)
-    }
-    
   }
 
   togleSearch = () => {
@@ -41,7 +16,7 @@ class ControlPainel extends Component {
   }
 
   render() {
-    const { search, textSearch } = this.state;
+    const { search } = this.state;
     const { 
       isTimerActive,
       pauseTimer,
@@ -94,19 +69,7 @@ class ControlPainel extends Component {
             <FaSearch />
           </button>
         </div>
-        <div className="search-container">
-          { search &&
-
-            <input
-              type="text"
-              name="textSearch"
-              value={ textSearch }
-              placeholder="00:00"
-              onChange={ this.handleChange }
-              onKeyUp={ this.searchEnter }
-            />
-          }
-      </div>
+        <Search search={ search } />
     </>
     );
   }

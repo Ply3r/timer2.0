@@ -90,7 +90,6 @@ body, #root {
   text-align: center;
   font-size: 1.5em;
   background-color: #292929;
-  animation: aparecerSearch .5s ease;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
 }

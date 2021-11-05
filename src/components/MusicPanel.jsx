@@ -1,8 +1,10 @@
+import { connect } from "react-redux";
 import { useTransition, animated } from "react-spring";
+import { activeMusic } from '../action';
 import musics from '../songs';
 
 
-const MusicPanel = ({ panelActive, activeMusic, changeActiveMusic }) => {
+const MusicPanel = ({ panelActive, activeMusic, activeMusicChange }) => {
   const current = musics.find((music) => music.name === activeMusic)
   
   const transition = useTransition(panelActive, {
@@ -13,7 +15,7 @@ const MusicPanel = ({ panelActive, activeMusic, changeActiveMusic }) => {
 
   const elements = musics.map(({ name, artist, img }) => (
     <div className={`flex-item ${current.name === name && 'active'}`} onClick={ () => {
-      changeActiveMusic(name);
+      activeMusicChange(name);
     } }>
       <img src={ img } alt="capa" />
       <h3>{ name }</h3>
@@ -40,4 +42,10 @@ const MusicPanel = ({ panelActive, activeMusic, changeActiveMusic }) => {
   );
 }
 
-export default MusicPanel;
+const mapStateToProps = ({ controlReducer: { activeMusic, panelActive } }) => ({ activeMusic, panelActive })
+
+const mapDispatchToProps = (dispatch) => ({
+  activeMusicChange: (name) => dispatch(activeMusic(name)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(MusicPanel);

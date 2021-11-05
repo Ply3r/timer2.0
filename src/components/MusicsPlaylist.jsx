@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { activeMusic } from "../action";
 import musics from "../songs";
 import MusicCard from "./MusicCard";
 
@@ -39,9 +41,19 @@ class MusicsPlaylist extends Component {
     this.setState({ name, img, artist, song, showCard: true })
   }
 
+  changeMusic = () => {
+    const { activeMusic, activeMusicChange } = this.props;
+    const index = musics.findIndex((music) => music.name === activeMusic);
+    let newIndex = index + 1;
+    if(newIndex > musics.length - 1) {
+      newIndex = 0
+    }
+    const newMusic = musics[newIndex].name;
+    activeMusicChange(newMusic);
+  }
+
   render() {
     const { img, name, artist, song, showCard } = this.state;
-    const { changeMusic } = this.props;
     return (
       <>
         <MusicCard 
@@ -50,10 +62,16 @@ class MusicsPlaylist extends Component {
           artist={ artist }
           showCard={ showCard }
         />
-        <audio onEnded={changeMusic} src={ song } autoPlay />
+        <audio onEnded={this.changeMusic} src={ song } autoPlay />
       </>
     )
   }
 }
 
-export default MusicsPlaylist;
+const mapStateToProps = ({ controlReducer: { activeMusic } }) => ({ activeMusic })
+
+const mapDispatchToProps = (dispatch) => ({
+  activeMusicChange: (name) => dispatch(activeMusic(name)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(MusicsPlaylist);
