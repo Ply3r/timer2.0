@@ -19,8 +19,8 @@ body, #root {
 
 .progressbar {
   position: absolute;
-  width: 48vw;
-  height: 48vw;
+  width: 900px;
+  height: 900px;
   transition: 1s ease;
 }
 
@@ -50,8 +50,8 @@ body, #root {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 48vw;
-  height: 48vw;
+  width: 900px;
+  height: 900px;
 }
 
 .control-painel {
@@ -204,6 +204,26 @@ body, #root {
 
 .active {
   background-color: #3b3b3b;
+}
+
+.shuffle-button {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: -19vw;
+  border: none;
+  background-color: transparent;
+  margin: 25px;
+  font-size: 2em;
+  color: white;
+}
+
+.white {
+  color: white;
+}
+
+.black { 
+  color: #1b1b1b;
 }
 
 .flex-item img {

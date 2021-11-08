@@ -42,13 +42,35 @@ class MusicsPlaylist extends Component {
   }
 
   changeMusic = () => {
-    const { activeMusic, activeMusicChange } = this.props;
+    const { activeMusic, activeMusicChange, shuffle } = this.props;
     const index = musics.findIndex((music) => music.name === activeMusic);
-    let newIndex = index + 1;
-    if(newIndex > musics.length - 1) {
-      newIndex = 0
+    let newMusic;
+    if (shuffle) {
+      let sortedIndex = Math.floor(Math.random() * musics.length - 1)
+
+      if (activeMusic !== musics[sortedIndex].name) {
+        newMusic = musics[sortedIndex].name
+
+      } else {
+        let nextIndex = sortedIndex + 1
+
+        if (nextIndex > musics.length - 1) {
+          newMusic = musics[sortedIndex - 1].name
+
+        } else {
+          newMusic = musics[sortedIndex + 1].name
+        }
+      }
+
+    } else {
+      let newIndex = index + 1;
+      if(newIndex > musics.length - 1) {
+        newIndex = 0
+      }
+
+      newMusic = musics[newIndex].name
     }
-    const newMusic = musics[newIndex].name;
+
     activeMusicChange(newMusic);
   }
 
@@ -68,7 +90,7 @@ class MusicsPlaylist extends Component {
   }
 }
 
-const mapStateToProps = ({ controlReducer: { activeMusic } }) => ({ activeMusic })
+const mapStateToProps = ({ controlReducer: { activeMusic, shuffle } }) => ({ activeMusic, shuffle })
 
 const mapDispatchToProps = (dispatch) => ({
   activeMusicChange: (name) => dispatch(activeMusic(name)),

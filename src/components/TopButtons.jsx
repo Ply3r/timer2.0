@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MdMusicNote, MdMusicOff } from 'react-icons/md';
 import { AiOutlineMenuUnfold, AiOutlineMenuFold } from 'react-icons/ai'
-import { isMuted, panelActive } from '../action';
+import { ImShuffle } from 'react-icons/im';
+import { isMuted, panelActive, shuffleChange } from '../action';
 
 class TopButtons extends Component {
   muteAudio = () => {
@@ -15,8 +16,13 @@ class TopButtons extends Component {
     panelActiveChange(!panelActive);
   }
 
+  isShuffle = () => {
+    const { shuffle, shuffleChange } = this.props;
+    shuffleChange(!shuffle);
+  }
+
   render() {
-    const { muted, panelActive } = this.props;
+    const { muted, panelActive, shuffle } = this.props;
     return (
       <>
         <button 
@@ -41,16 +47,32 @@ class TopButtons extends Component {
             <AiOutlineMenuUnfold />
           }
         </button>
+        <button 
+          className="shuffle-button"
+          onClick={ this.isShuffle }
+        >
+          { shuffle
+          ?
+            <div className="white">
+              <ImShuffle />
+            </div>
+          :
+            <div className="black">
+              <ImShuffle />
+            </div>
+          }
+        </button>
       </>
     );
   }
 }
 
-const mapStateToProps = ({ controlReducer: { muted, panelActive } }) => ({ panelActive, muted });
+const mapStateToProps = ({ controlReducer: { muted, panelActive, shuffle } }) => ({ panelActive, muted, shuffle });
 
 const mapDispatchToProps = (dispatch) => ({
   isMuted: (bool) => dispatch(isMuted(bool)),
   panelActiveChange: (bool) => dispatch(panelActive(bool)),
+  shuffleChange: (bool) => dispatch(shuffleChange(bool)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopButtons);
