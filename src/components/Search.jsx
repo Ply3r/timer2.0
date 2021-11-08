@@ -50,6 +50,7 @@ const Search = ({ search, changeTime }) => {
         { transition((style, item) => 
           item &&
             <animated.input
+              autoComplete="off"
               style={ style }
               type="text"
               name="textSearch"
