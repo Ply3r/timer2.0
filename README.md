@@ -8,4 +8,4 @@ Site feito em um desafio propostos pelos intrutores da Trybe, utilizei React e R
 ## Site
 [Timer2.0](https://ply3r.github.io/timer2.0/)
 ## preview
-![Timer](https://i.ibb.co/d0qTfNT/timer2.png)
+![Timer](https://i.ibb.co/pzw9srY/Captura-de-tela-de-2022-01-04-15-40-54.png)
